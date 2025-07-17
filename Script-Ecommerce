@@ -1,0 +1,35 @@
+-- Tabela Cliente
+CREATE TABLE Cliente (
+  id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+  tipo ENUM('PF', 'PJ') NOT NULL,
+  nome_razao VARCHAR(100) NOT NULL,
+  cpf_cnpj VARCHAR(20) UNIQUE NOT NULL,
+  email VARCHAR(100)
+);
+
+-- Tabela Pagamento
+CREATE TABLE Pagamento (
+  id_pagamento INT PRIMARY KEY AUTO_INCREMENT,
+  id_cliente INT,
+  tipo_pagamento VARCHAR(50),
+  dados TEXT,
+  FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
+);
+
+-- Tabela Pedido
+CREATE TABLE Pedido (
+  id_pedido INT PRIMARY KEY AUTO_INCREMENT,
+  id_cliente INT,
+  data DATETIME DEFAULT CURRENT_TIMESTAMP,
+  total DECIMAL(10,2),
+  FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
+);
+
+-- Tabela Entrega
+CREATE TABLE Entrega (
+  id_entrega INT PRIMARY KEY AUTO_INCREMENT,
+  id_pedido INT,
+  status VARCHAR(50),
+  codigo_rastreamento VARCHAR(100),
+  FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido)
+);
